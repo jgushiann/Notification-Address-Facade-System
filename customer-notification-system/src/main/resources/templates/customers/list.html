@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer List</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        a { color: #007bff; margin-right: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Customers</h1>
+    <a href="/customers/add">Add Customer</a>
+    <table>
+        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Preference</th><th>Actions</th></tr>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phone}"></td>
+            <td th:text="${customer.notificationPreference ?: 'None'}"></td>
+            <td>
+                <a th:href="@{/customers/edit(id=${customer.id})}">Edit</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
