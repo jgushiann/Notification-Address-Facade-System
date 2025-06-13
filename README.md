@@ -42,22 +42,22 @@ When you run the application:
 
 ### Directory Structure
 
--src/main/java/com/nj/notifications/customernotificationsystem/
-  -config/: SecurityConfig.java
-  -controller/: HomeController.java, LoginController.java, CustomerController.java, AdminController.java, NotificationPreferenceController.java
-  -model/: Customer.java, NotificationPreference.java
-  -service/: CustomerService.java, NotificationPreferenceService.java
-  -repository/: CustomerRepo.java, NotificationPreferenceRepo.java
+ - src/main/java/com/nj/notifications/customernotificationsystem/
+   - config/: SecurityConfig.java
+   - controller/: HomeController.java, LoginController.java, CustomerController.java, AdminController.java, NotificationPreferenceController.java
+   - model/: Customer.java, NotificationPreference.java
+   - service/: CustomerService.java, NotificationPreferenceService.java
+   - repository/: CustomerRepo.java, NotificationPreferenceRepo.java
 
--src/main/resources/
-  -templates/: Thymeleaf templates (admin/dashboard.html, customers/list.html...)
-  -static/: Static files (index.html)
-  -application.properties: Configuration settings
+ - src/main/resources/
+   - templates/: Thymeleaf templates (admin/dashboard.html, customers/list.html...)
+   - static/: Static files (index.html)
+   - application.properties: Configuration settings
 
--src/test/java/com/nj/notifications/customernotificationsystem/
-  -ServiceTest.java.
-  -ControllerTest.java.
-  -ConfigTest.java.
+ - src/test/java/com/nj/notifications/customernotificationsystem/
+   - ServiceTest.java.
+   - ControllerTest.java.
+   - ConfigTest.java.
 
 
 ### Notes (All for the demo purposes...)
