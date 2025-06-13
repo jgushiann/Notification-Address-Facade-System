@@ -18,4 +18,31 @@ The Customer Notification Address Facade System is designed to manage customer c
  - Update preferences: modify preferences when adding or editing customers
  - Display preferences: show current preferences in the customer list
 
+### Integration and API
+ - RESTful API: endpoints at /api/customers for customer management (GET, POST, PUT)
+ - Secure API access: requires admin authentication for all API operations
+
+
+## Set up
+ - Clone the repository
+ - Build the project
+ - Run the application
+
+## Usage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
