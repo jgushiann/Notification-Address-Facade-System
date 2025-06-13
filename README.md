@@ -20,7 +20,10 @@ The Customer Notification Address Facade System is designed to manage customer c
 
 ### Integration and API
  - RESTful API: endpoints at /api/customers for customer management (GET, POST, PUT)
- - Secure API access: requires admin authentication for all API operations
+ - Secure API access: requires admin authentication for all API operations\
+
+### Database 
+ - Uses an in-memory H2 database, auto-created at startup
 
 
 ## Set up
@@ -29,6 +32,45 @@ The Customer Notification Address Facade System is designed to manage customer c
  - Run the application
 
 ## Usage
+When you run the application:
+1. open http://localhost:8080 (while running) in the browser.
+2. Log in :
+    - Admin: Username - "admin", password - "admin123"
+    - User: Username - "user", password - "user123"
+3. After logging in, you can add, edit, and view customers with notification preferences via the admin dashboard.
+
+
+### Directory Structure
+
+-src/main/java/com/nj/notifications/customernotificationsystem/
+  -config/: SecurityConfig.java
+  -controller/: HomeController.java, LoginController.java, CustomerController.java, AdminController.java, NotificationPreferenceController.java
+  -model/: Customer.java, NotificationPreference.java
+  -service/: CustomerService.java, NotificationPreferenceService.java
+  -repository/: CustomerRepo.java, NotificationPreferenceRepo.java
+
+-src/main/resources/
+  -templates/: Thymeleaf templates (admin/dashboard.html, customers/list.html...)
+  -static/: Static files (index.html)
+  -application.properties: Configuration settings
+
+-src/test/java/com/nj/notifications/customernotificationsystem/
+  -ServiceTest.java.
+  -ControllerTest.java.
+  -ConfigTest.java.
+
+
+### Notes (All for the demo purposes...)
+ - Security: CSRF is disabled 
+ - Database: In-memory H2 database
+ - Gaps: Lacks address management, notification tracking, search/filtering, and reporting features due to some reasons
+
+
+### Future Improvements
+ - Add address management and advanced search
+ - Improve UI
+ - Include reporting for notification preferences
+ - Implement notification sending
 
 
 
