@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f2c 0%, #1a2d13 50%, #39ff14 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 1);
+            backdrop-filter: blur(10px);
+            border-radius:15px;
+            padding: 2rem 0;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 80vh;
+            top: 2rem;
+        }
+
+        .sidebar h2 {
+            color: #0a0f2c;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            fill: currentColor;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #0a0f2c;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .add-customer-btn {
+            background-color: #0a0f2c;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-customer-btn:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .customers-table th,
+        .customers-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .customers-table th {
+            background: rgba(102, 126, 234, 0.1);
+            color: #0a0f2c;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .customers-table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            color: #0a0f2c;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close {
+            color: #a0aec0;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .close:hover {
+            color: #718096;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #4a5568;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #0a0f2c;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0a0f2c;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #0a0f2c;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+                transition: transform 0.3s ease;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <nav class="sidebar" id="sidebar">
+        <h2>Admin Panel</h2>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="/admin/dashboard" class="nav-link active">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/customerList" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4zm-4 7c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Customers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/register" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Register New Admin
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/registerUser" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Register New User
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Customers List</h1>
+            <button class="add-customer-btn" onclick="openModal('add')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                Add Customer
+            </button>
+        </header>
+
+
+    </main>
+</div>
+
+<div id="customerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Edit Customer</h3>
+            <button class="close" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="customerForm">
+            <input type="hidden" id="customerId">
+            <div class="form-group">
+                <label for="customerName" class="form-label">Full Name</label>
+                <input type="text" id="customerName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="customerEmail" class="form-label">Email Address</label>
+                <input type="email" id="customerEmail" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="customerPhone" class="form-label">Phone Number</label>
+                <input type="tel" id="customerPhone" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="customerStatus" class="form-label">Status</label>
+                <select id="customerStatus" class="form-control">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Notification Preferences</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="emailOptIn">
+                        <label for="emailOptIn">Email Notifications</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="smsOptIn">
+                        <label for="smsOptIn">SMS Notifications</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(mode, id = null) {
+        const modal = document.getElementById('customerModal');
+        const title = document.getElementById('modalTitle');
+        const form = document.getElementById('customerForm');
+
+        if (mode === 'add') {
+            title.textContent = 'Add New Customer';
+            form.reset();
+            document.getElementById('customerId').value = '';
+        }
+
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('customerModal').style.display = 'none';
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const tableRows = document.querySelectorAll('#customersTable tbody tr');
+
+        tableRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+
+    document.getElementById('customerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+            id: document.getElementById('customerId').value,
+            name: document.getElementById('customerName').value,
+            email: document.getElementById('customerEmail').value,
+            phone: document.getElementById('customerPhone').value,
+            status: document.getElementById('customerStatus').value,
+            emailOptIn: document.getElementById('emailOptIn').checked,
+            smsOptIn: document.getElementById('smsOptIn').checked
+        };
+
+        console.log('Form data:', formData);
+        closeModal();
+    });
+
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('customerModal');
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+</script>
+
+</body>
+</html>

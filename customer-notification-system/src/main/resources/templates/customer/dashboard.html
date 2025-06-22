@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Dashboard - Customer Notification System</title>
     <style>
         * {
             margin: 0;
@@ -26,8 +26,10 @@
         .sidebar {
             width: 250px;
             background: rgba(255, 255, 255, 1);
+            backdrop-filter: blur(10px);
             border-radius:15px;
             padding: 2rem 0;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
             position: fixed;
             height: 80vh;
             top: 2rem
@@ -38,7 +40,16 @@
             text-align: center;
             margin-bottom: 2rem;
             font-size: 1.75rem;
+            font-weight: 600;
             padding: 0 1rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0.5rem 0;
         }
 
         .nav-link {
@@ -50,6 +61,12 @@
             font-weight: 500;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(102, 126, 234, 0.1);
+            color: #0a0f2c;
+            border-left-color: #667eea;
         }
 
         .nav-icon {
@@ -83,6 +100,7 @@
             font-weight: 600;
         }
 
+        /* Dashboard Cards */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -92,6 +110,7 @@
 
         .dashboard-card {
             background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -123,7 +142,39 @@
             font-size: 0.9rem;
         }
 
+        /* Recent Notifications Section */
+        .recent-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            color: #0a0f2c;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .placeholder-text {
+            color: #a0aec0;
+            font-style: italic;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(247, 250, 252, 0.5);
+            border-radius: 10px;
+            border: 2px dashed #e2e8f0;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -152,7 +203,35 @@
             }
         }
 
+        .menu-toggle-checkbox {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
             .menu-toggle-checkbox:checked + .menu-toggle + .dashboard-container .sidebar {
                 transform: translateX(0);
             }
@@ -161,11 +240,12 @@
 </head>
 <body>
 <div class="dashboard-container">
+    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <h2>Admin Panel</h2>
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="/admin/dashboard" class="nav-link active">
+                <a href="/customer/dashboard" class="nav-link active">
                     <svg class="nav-icon" viewBox="0 0 24 24">
                         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
                     </svg>
@@ -173,47 +253,24 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/admin/customerList" class="nav-link">
+                <a href="/customer/list" class="nav-link">
                     <svg class="nav-icon" viewBox="0 0 24 24">
                         <path d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4zm-4 7c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
                     </svg>
                     Customers
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/admin/register" class="nav-link">
-                    <svg class="nav-icon" viewBox="0 0 24 24">
-                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    Register New Admin
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/registerUser" class="nav-link">
-                    <svg class="nav-icon" viewBox="0 0 24 24">
-                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    Register New User
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <svg class="nav-icon" viewBox="0 0 24 24">
-                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-                    </svg>
-                    Logout
-                </a>
-            </li>
         </ul>
     </nav>
 
-
+    <!-- Main Content -->
     <main class="main-content">
+        <!-- Header -->
         <header class="header">
             <h1>Admin Dashboard</h1>
         </header>
 
+        <!-- Dashboard Cards -->
         <div class="dashboard-grid">
             <div class="dashboard-card">
                 <div class="card-header">
@@ -255,6 +312,13 @@
                 <div class="card-description">Overall notification delivery success rate</div>
             </div>
         </div>
+
+        <!-- Recent Notifications -->
+        <section class="recent-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Notifications</h2>
+            </div>
+        </section>
     </main>
 </div>
 
