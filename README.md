@@ -58,20 +58,21 @@ src/main/java/com/nj/notifications/customernotificationsystem/
   -- CustomerRepository
 
 src/main/resources/
--- templates/
-  -- admin/
-    -- customerList.html
-    -- dashboard.html
-    -- register.html
-    -- registerUser.html
-  -- customer/
-    -- add.html    //empty
-    -- edit.html   //empty
-    -- list.html   //empty
-    -- dashboard.html
-  -- login.html
--- static/
--- applicationProperties
+- templates/
+  - admin/
+    - customerList.html
+    - dashboard.html
+    - register.html
+    - registerUser.html
+       
+  - customer/
+    - add.html    //empty
+    - edit.html   //empty
+    - list.html   //empty
+    - dashboard.html
+  - login.html
+- static/
+- applicationProperties
 
 
 
