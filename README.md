@@ -40,22 +40,22 @@ The Customer Notification Address Facade System is designed to manage customer c
 
 ### Directory structure
 src/main/java/com/nj/notifications/customernotificationsystem/
--- config/
-  -- SecurityConfig.java
--- controller/
-  -- ApiController.java
-  -- LoginController.java
-  -- AdminController.java
--- model/
-  -- Admin
-  -- Customer
--- service/
-  -- AdminService
-  -- CustomerService
-  -- CustomUserDetailsService
--- repository/
-  -- AdminRepository
-  -- CustomerRepository
+- config/
+  - SecurityConfig.java
+- controller/
+  - ApiController.java
+  - LoginController.java
+  - AdminController.java
+- model/
+  - Admin
+  - Customer
+- service/
+  - AdminService
+  - CustomerService
+  - CustomUserDetailsService
+- repository/
+  - AdminRepository
+  - CustomerRepository
 
 src/main/resources/
 - templates/
